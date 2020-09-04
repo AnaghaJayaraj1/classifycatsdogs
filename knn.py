@@ -3,11 +3,11 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from imutils import paths
 from PIL import Image
-#from tqdm import tqdm
+import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 import imutils
-import cv2
+import cv2 
 import os
 
 
@@ -51,7 +51,7 @@ for (i, imagePath) in enumerate(imagePaths):
  
 	if i > 0 and i % 1000 == 0:
 		print("[INFO] processed {}/{}".format(i, len(imagePaths)))
- 
+
 features = np.array(features)
 labels = np.array(labels)
 
@@ -61,15 +61,43 @@ print("[INFO] features matrix: {:.2f}MB".format(
 (trainFeat, testFeat, trainLabels, testLabels) = train_test_split(features, labels, test_size=0.25, random_state=42)
  
 print("[INFO] evaluating histogram accuracy...")
-model = KNeighborsClassifier(n_neighbors=args["neighbors"],
-	n_jobs=args["jobs"])
+model = KNeighborsClassifier(n_neighbors=args["neighbors"], n_jobs=args["jobs"])
 model.fit(trainFeat, trainLabels)
 acc = model.score(testFeat, testLabels)
 print("[INFO] histogram accuracy: {:.2f}%".format(acc * 100))
 
 
-
-img = cv2.imread("ruby.jpeg")
+word=np.array(['dog','cat'])
+img = cv2.imread("19.jpeg")
 h = extract_color_histogram(img)
 prediction = model.predict([h])
-print(prediction)
+d=Image.open('dogpop.png')
+c=Image.open('catpop.png')
+result=prediction[0]
+if result == word[0]:
+	d.show()
+elif result == word[1] :
+	c.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
